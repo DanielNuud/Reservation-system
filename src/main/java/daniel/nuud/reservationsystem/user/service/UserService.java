@@ -1,5 +1,6 @@
 package daniel.nuud.reservationsystem.user.service;
 
+import daniel.nuud.reservationsystem.user.dto.UserCreateDTO;
 import daniel.nuud.reservationsystem.user.dto.UserDTO;
 import daniel.nuud.reservationsystem.user.mapper.UserMapper;
 import daniel.nuud.reservationsystem.user.repository.UserRepository;
@@ -17,8 +18,8 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-    public UserDTO createUser(UserDTO userDTO) {
-        var user = userMapper.toEntity(userDTO);
+    public UserDTO createUser(UserCreateDTO userCreateDTO) {
+        var user = userMapper.toEntity(userCreateDTO);
         userRepository.save(user);
         return userMapper.toDTO(user);
     }
@@ -28,6 +29,10 @@ public class UserService {
         var result = users.stream().map(user -> userMapper.toDTO(user))
                 .toList();
         return result;
+    }
+
+    public void deleteUser(Long userId) {
+        userRepository.deleteById(userId);
     }
 
 }
