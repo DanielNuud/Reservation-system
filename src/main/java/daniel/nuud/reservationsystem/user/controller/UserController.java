@@ -1,6 +1,8 @@
 package daniel.nuud.reservationsystem.user.controller;
 
+import daniel.nuud.reservationsystem.user.dto.UserCreateDTO;
 import daniel.nuud.reservationsystem.user.dto.UserDTO;
+import daniel.nuud.reservationsystem.user.dto.UserUpdateDTO;
 import daniel.nuud.reservationsystem.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,14 +31,20 @@ public class UserController {
 
     @PostMapping(path = "/users")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
-        var user = userService.createUser(userDTO);
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserCreateDTO userCreateDTO) {
+        var user = userService.createUser(userCreateDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
     @PutMapping(path = "/users/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public UserDTO updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
+    public UserDTO updateUser(@PathVariable Long id, @RequestBody UserUpdateDTO userUpdateDTO) {
         return null;
+    }
+
+    @DeleteMapping(path = "/users/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
     }
 }
