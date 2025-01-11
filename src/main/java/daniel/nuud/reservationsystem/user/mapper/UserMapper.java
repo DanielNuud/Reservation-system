@@ -1,6 +1,8 @@
 package daniel.nuud.reservationsystem.user.mapper;
 
+import daniel.nuud.reservationsystem.user.dto.UserCreateDTO;
 import daniel.nuud.reservationsystem.user.dto.UserDTO;
+import daniel.nuud.reservationsystem.user.dto.UserUpdateDTO;
 import daniel.nuud.reservationsystem.user.model.UserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
@@ -14,6 +16,6 @@ import org.mapstruct.ReportingPolicy;
 )
 public interface UserMapper {
     UserDTO toDTO(UserEntity user);
-    UserEntity toEntity(UserDTO userDTO);
-
+    UserEntity toEntity(UserCreateDTO userCreateDTO);
+   // void updateUser(UserEntity user, UserUpdateDTO userUpdateDTO);
 }
