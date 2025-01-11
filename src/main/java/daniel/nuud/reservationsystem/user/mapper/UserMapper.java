@@ -6,7 +6,7 @@ import daniel.nuud.reservationsystem.user.dto.UserUpdateDTO;
 import daniel.nuud.reservationsystem.user.model.UserEntity;
 import org.mapstruct.*;
 
-@Mapper(uses = { JsonNullableMapper.class, ReferenceMapper.class },
+@Mapper(uses = { JsonNullableMapper.class },
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
         componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.IGNORE
