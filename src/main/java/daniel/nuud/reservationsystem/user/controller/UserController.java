@@ -28,7 +28,6 @@ public class UserController {
                 .body(users);
     }
 
-
     @PostMapping(path = "/users")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<UserDTO> createUser(@RequestBody UserCreateDTO userCreateDTO) {
@@ -39,7 +38,7 @@ public class UserController {
     @PutMapping(path = "/users/{id}")
     @ResponseStatus(HttpStatus.OK)
     public UserDTO updateUser(@PathVariable Long id, @RequestBody UserUpdateDTO userUpdateDTO) {
-        return null;
+        return userService.updateUser(userUpdateDTO, id);
     }
 
     @DeleteMapping(path = "/users/{id}")

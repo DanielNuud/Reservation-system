@@ -4,18 +4,15 @@ import daniel.nuud.reservationsystem.user.dto.UserCreateDTO;
 import daniel.nuud.reservationsystem.user.dto.UserDTO;
 import daniel.nuud.reservationsystem.user.dto.UserUpdateDTO;
 import daniel.nuud.reservationsystem.user.model.UserEntity;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingConstants;
-import org.mapstruct.NullValuePropertyMappingStrategy;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.*;
 
-@Mapper(
+@Mapper(uses = { JsonNullableMapper.class, ReferenceMapper.class },
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
         componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
-public interface UserMapper {
-    UserDTO toDTO(UserEntity user);
-    UserEntity toEntity(UserCreateDTO userCreateDTO);
-   // void updateUser(UserEntity user, UserUpdateDTO userUpdateDTO);
+public abstract class UserMapper {
+    public abstract UserDTO toDTO(UserEntity user);
+    public abstract UserEntity toEntity(UserCreateDTO userCreateDTO);
+    public abstract void updateUser(@MappingTarget UserEntity user, UserUpdateDTO userUpdateDTO);
 }

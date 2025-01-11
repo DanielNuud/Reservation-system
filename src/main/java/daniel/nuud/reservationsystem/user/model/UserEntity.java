@@ -19,7 +19,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @Getter
 @Setter
-public class UserEntity {
+public class UserEntity implements BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
