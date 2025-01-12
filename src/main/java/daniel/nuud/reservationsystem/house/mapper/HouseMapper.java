@@ -4,10 +4,9 @@ import daniel.nuud.reservationsystem.house.dto.HouseCreateDTO;
 import daniel.nuud.reservationsystem.house.dto.HouseDTO;
 import daniel.nuud.reservationsystem.house.dto.HouseUpdateDTO;
 import daniel.nuud.reservationsystem.house.model.HouseEntity;
-import daniel.nuud.reservationsystem.user.mapper.JsonNullableMapper;
 import org.mapstruct.*;
 
-@Mapper(uses = { JsonNullableMapper.class },
+@Mapper(uses = { HouseJsonNullableMapper.class },
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
         componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.IGNORE
