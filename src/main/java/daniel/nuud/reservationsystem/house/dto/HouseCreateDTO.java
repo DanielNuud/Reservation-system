@@ -18,4 +18,6 @@ public class HouseCreateDTO {
 
     @NotNull(message = "Capacity must not be null")
     private Integer capacity;
+
+    private boolean available;
 }
