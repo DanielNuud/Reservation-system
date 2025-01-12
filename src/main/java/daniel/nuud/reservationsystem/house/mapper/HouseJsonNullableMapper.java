@@ -1,4 +1,4 @@
-package daniel.nuud.reservationsystem.user.mapper;
+package daniel.nuud.reservationsystem.house.mapper;
 
 import org.mapstruct.Condition;
 import org.mapstruct.Mapper;
@@ -8,7 +8,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 @Mapper(
         componentModel = MappingConstants.ComponentModel.SPRING
 )
-public abstract class JsonNullableMapper {
+public abstract class HouseJsonNullableMapper {
     public <T> JsonNullable<T> wrap(T entity) {
         return JsonNullable.of(entity);
     }
