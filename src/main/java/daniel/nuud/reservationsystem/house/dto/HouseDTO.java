@@ -3,6 +3,8 @@ package daniel.nuud.reservationsystem.house.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.Instant;
+
 @Getter
 @Setter
 public class HouseDTO {
@@ -11,4 +13,5 @@ public class HouseDTO {
     private String address;
     private Integer capacity;
     private Boolean available;
+    private Instant createdAt;
 }
