@@ -4,6 +4,7 @@ import daniel.nuud.reservationsystem.house.dto.HouseCreateDTO;
 import daniel.nuud.reservationsystem.house.dto.HouseDTO;
 import daniel.nuud.reservationsystem.house.dto.HouseUpdateDTO;
 import daniel.nuud.reservationsystem.house.service.HouseService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +18,6 @@ public class HouseController {
 
     @Autowired
     private HouseService houseService;
-
-
 
     @GetMapping(path = "/houses")
     @ResponseStatus(HttpStatus.OK)
@@ -36,7 +35,7 @@ public class HouseController {
 
     @PostMapping(path = "/houses")
     @ResponseStatus(HttpStatus.CREATED)
-    public HouseDTO createHouse(@RequestBody HouseCreateDTO houseCreateDTO) {
+    public HouseDTO createHouse(@RequestBody @Valid HouseCreateDTO houseCreateDTO) {
         var house = houseService.createHouse(houseCreateDTO);
         return house;
     }

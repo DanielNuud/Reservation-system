@@ -2,6 +2,7 @@ package daniel.nuud.reservationsystem.house.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,10 +29,15 @@ public class HouseEntity {
 
     private String description;
 
+    @Column(unique = true, nullable = false)
     @NotBlank
     private String address;
 
-    private String capacity;
+    @NotNull
+    private Double area;
+
+    @NotNull
+    private Integer rooms;
 
     private Boolean available;
 

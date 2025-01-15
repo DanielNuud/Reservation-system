@@ -4,6 +4,7 @@ import daniel.nuud.reservationsystem.user.dto.UserCreateDTO;
 import daniel.nuud.reservationsystem.user.dto.UserDTO;
 import daniel.nuud.reservationsystem.user.dto.UserUpdateDTO;
 import daniel.nuud.reservationsystem.user.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class UserController {
 
     @PostMapping(path = "/users")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserCreateDTO userCreateDTO) {
+    public ResponseEntity<UserDTO> createUser(@RequestBody @Valid UserCreateDTO userCreateDTO) {
         var user = userService.createUser(userCreateDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }

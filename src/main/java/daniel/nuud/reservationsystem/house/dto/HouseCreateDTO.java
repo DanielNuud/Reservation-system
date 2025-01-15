@@ -2,6 +2,7 @@ package daniel.nuud.reservationsystem.house.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,8 +17,11 @@ public class HouseCreateDTO {
     @NotBlank(message = "Address must not be blank")
     private String address;
 
-    @NotNull(message = "Capacity must not be null")
-    private Integer capacity;
+    @Positive(message = "Area must be greater than 0")
+    private Double area;
+
+    @Positive(message = "Number of rooms must be greater than 0")
+    private Integer rooms;
 
     private boolean available;
 }

@@ -14,7 +14,10 @@ import org.springframework.data.annotation.LastModifiedDate;
 import java.time.Instant;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "email"),
+        @UniqueConstraint(columnNames = "phoneNumber")
+})
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -31,11 +34,11 @@ public class UserEntity {
     @NotBlank
     private String lastName;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     @Email
     private String email;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     @NotNull
     private String phoneNumber;
 

@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface HouseRepository extends JpaRepository<HouseEntity, Long> {
+    boolean existsById(Long id);
+    boolean existsByAddress(String address);
 }

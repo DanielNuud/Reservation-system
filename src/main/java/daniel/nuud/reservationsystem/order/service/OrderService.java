@@ -1,5 +1,8 @@
 package daniel.nuud.reservationsystem.order.service;
 
+import daniel.nuud.reservationsystem.exception.ConflictException;
+import daniel.nuud.reservationsystem.exception.IllegalTimeException;
+import daniel.nuud.reservationsystem.exception.ResourceNotFoundException;
 import daniel.nuud.reservationsystem.house.repository.HouseRepository;
 import daniel.nuud.reservationsystem.order.dto.OrderCreateDTO;
 import daniel.nuud.reservationsystem.order.dto.OrderDTO;
@@ -8,10 +11,7 @@ import daniel.nuud.reservationsystem.order.model.OrderEntity;
 import daniel.nuud.reservationsystem.order.repository.OrderRepository;
 import daniel.nuud.reservationsystem.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,10 +33,26 @@ public class OrderService {
 
     public OrderDTO createOrder(OrderCreateDTO orderCreateDTO) {
         var user = userRepository.findById(orderCreateDTO.getUserId())
-                .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("User with id " + orderCreateDTO.getUserId() + " not found"));
 
         var house = houseRepository.findById(orderCreateDTO.getHouseId())
-                .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("House with id " + orderCreateDTO.getHouseId() + " not found"));
+
+        if (orderCreateDTO.getStartReservation().isAfter(orderCreateDTO.getEndReservation())) {
+            throw new IllegalTimeException("Start reservation cannot be after end reservation");
+        }
+
+        boolean hasConflict = orderRepository.existsByHouseAndTimeRange(
+                house.getId(),
+                orderCreateDTO.getStartReservation(),
+                orderCreateDTO.getEndReservation()
+        );
+
+        if (hasConflict) {
+            throw new ConflictException("House is already booked for the specified time range");
+        }
 
         OrderEntity order = orderMapper.toEntity(orderCreateDTO);
         order.setUser(user);
@@ -47,7 +63,7 @@ public class OrderService {
 
     public OrderDTO getOrder(Long orderId) {
         var order = orderRepository.findById(orderId)
-                .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(()-> new ResourceNotFoundException("Order with id " + orderId + " not found"));
         return orderMapper.toDto(order);
     }
 
@@ -59,8 +75,10 @@ public class OrderService {
     }
 
     public void deleteOrder(Long orderId) {
-        var order = orderRepository.findById(orderId)
-                .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        orderRepository.delete(order);
+        if (!orderRepository.existsById(orderId)) {
+            throw new ResourceNotFoundException("Order with id " + orderId + " not found");
+        }
+
+        orderRepository.deleteById(orderId);
     }
 }

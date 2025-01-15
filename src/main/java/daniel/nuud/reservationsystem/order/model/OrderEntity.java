@@ -3,6 +3,10 @@ package daniel.nuud.reservationsystem.order.model;
 import daniel.nuud.reservationsystem.house.model.HouseEntity;
 import daniel.nuud.reservationsystem.user.model.UserEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,6 +40,9 @@ public class OrderEntity {
     @CreatedDate
     private Instant createdAt;
 
+    @FutureOrPresent(message = "Start date must be in the present or future")
     private Instant startReservation;
+
+    @Future
     private Instant endReservation;
 }

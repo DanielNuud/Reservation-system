@@ -11,7 +11,8 @@ public class HouseDTO {
     private Long id;
     private String name;
     private String address;
-    private Integer capacity;
+    private Integer rooms;
+    private Double area;
     private Boolean available;
     private Instant createdAt;
 }
