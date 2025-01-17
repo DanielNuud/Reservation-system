@@ -1,4 +1,4 @@
-package daniel.nuud.reservationsystem;
+package daniel.nuud.reservationsystem.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

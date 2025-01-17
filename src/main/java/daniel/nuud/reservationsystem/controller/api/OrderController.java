@@ -1,4 +1,4 @@
-package daniel.nuud.reservationsystem.controller;
+package daniel.nuud.reservationsystem.controller.api;
 
 import daniel.nuud.reservationsystem.dto.OrderCreateDTO;
 import daniel.nuud.reservationsystem.dto.OrderDTO;

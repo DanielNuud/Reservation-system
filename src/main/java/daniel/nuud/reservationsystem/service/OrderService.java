@@ -10,6 +10,7 @@ import daniel.nuud.reservationsystem.mapper.OrderMapper;
 import daniel.nuud.reservationsystem.model.OrderEntity;
 import daniel.nuud.reservationsystem.repository.OrderRepository;
 import daniel.nuud.reservationsystem.repository.UserRepository;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,9 @@ public class OrderService {
 
     @Autowired
     private HouseRepository houseRepository;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @Autowired
     private OrderMapper orderMapper;
