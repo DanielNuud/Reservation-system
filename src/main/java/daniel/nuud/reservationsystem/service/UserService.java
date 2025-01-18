@@ -28,11 +28,11 @@ public class UserService {
             throw new ConflictException(String.format("Email '%s' is already in use", userCreateDTO.getEmail()));
         }
 
-        if (userRepository.existsByPhoneNumber(userCreateDTO.getPhoneNumber())) {
-            log.warn("Attempt to create user with duplicate phone: {}", userCreateDTO.getPhoneNumber());
-            throw new ConflictException(
-                    String.format("Phone number '%s' is already in use", userCreateDTO.getPhoneNumber()));
-        }
+//        if (userRepository.existsByPhoneNumber(userCreateDTO.getPhoneNumber())) {
+//            log.warn("Attempt to create user with duplicate phone: {}", userCreateDTO.getPhoneNumber());
+//            throw new ConflictException(
+//                    String.format("Phone number '%s' is already in use", userCreateDTO.getPhoneNumber()));
+//        }
 
         var user = userMapper.toEntity(userCreateDTO);
         userRepository.save(user);
@@ -50,9 +50,9 @@ public class UserService {
         var user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User with id " + userId + "not found"));
 
-        if (userRepository.existsByEmail(user.getEmail()) && userRepository.existsByPhoneNumber(user.getPhoneNumber())) {
-            throw new ConflictException("Email or phone number is already in use");
-        }
+//        if (userRepository.existsByEmail(user.getEmail()) && userRepository.existsByPhoneNumber(user.getPhoneNumber())) {
+//            throw new ConflictException("Email or phone number is already in use");
+//        }
 
         userMapper.updateUser(user, userUpdateDTO);
         userRepository.save(user);

@@ -31,19 +31,18 @@ public class UserController {
 
     @PostMapping(path = "/users")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<UserDTO> createUser(@RequestBody @Valid UserCreateDTO userCreateDTO) {
-        var user = userService.createUser(userCreateDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    public UserDTO createUser(@RequestBody @Valid UserCreateDTO userCreateDTO) {
+        return userService.createUser(userCreateDTO);
     }
 
     @PutMapping(path = "/users/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public UserDTO updateUser(@PathVariable Long id, @RequestBody UserUpdateDTO userUpdateDTO) {
+    public UserDTO updateUser(@PathVariable Long id, @RequestBody @Valid UserUpdateDTO userUpdateDTO) {
         return userService.updateUser(userUpdateDTO, id);
     }
 
     @DeleteMapping(path = "/users/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
     }

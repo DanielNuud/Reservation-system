@@ -1,9 +1,6 @@
 package daniel.nuud.reservationsystem.handler;
 
-import daniel.nuud.reservationsystem.exception.IllegalTimeException;
-import daniel.nuud.reservationsystem.exception.InvalidRequestException;
-import daniel.nuud.reservationsystem.exception.ConflictException;
-import daniel.nuud.reservationsystem.exception.ResourceNotFoundException;
+import daniel.nuud.reservationsystem.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -33,5 +30,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(IllegalTimeException.class)
     public ResponseEntity<?> handleIllegalTimeException(IllegalTimeException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", ex.getMessage()));
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<?> handleAccessDeniedException(AccessDeniedException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", ex.getMessage()));
     }
 }

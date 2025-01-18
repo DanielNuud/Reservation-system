@@ -2,6 +2,8 @@ package daniel.nuud.reservationsystem.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +19,7 @@ public class UserCreateDTO {
     @NotBlank(message = "Email must not be blank")
     private String email;
 
-    @NotBlank(message = "Phone number must not be blank")
-    private String phoneNumber;
+    @NotNull
+    @Size(min = 3)
+    private String password;
 }
