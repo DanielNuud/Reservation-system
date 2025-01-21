@@ -17,11 +17,12 @@ public class HouseCreateDTO {
     @NotBlank(message = "Address must not be blank")
     private String address;
 
-    @Positive(message = "Area must be greater than 0")
+    @Positive(message = "Must be greater than 0")
     private Double area;
 
-    @Positive(message = "Number of rooms must be greater than 0")
+    @Positive(message = "Must be greater than 0")
     private Integer rooms;
 
     private boolean available;
+
 }
