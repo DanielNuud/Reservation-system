@@ -1,4 +1,4 @@
-package daniel.nuud.reservationsystem.controller.api;
+package daniel.nuud.reservationsystem.rest.api;
 
 import daniel.nuud.reservationsystem.dto.HouseCreateDTO;
 import daniel.nuud.reservationsystem.dto.HouseDTO;
@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class HouseController {
+public class HouseResource {
 
     @Autowired
     private HouseService houseService;

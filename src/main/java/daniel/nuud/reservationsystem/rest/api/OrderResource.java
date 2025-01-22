@@ -1,4 +1,4 @@
-package daniel.nuud.reservationsystem.controller.api;
+package daniel.nuud.reservationsystem.rest.api;
 
 import daniel.nuud.reservationsystem.dto.OrderCreateDTO;
 import daniel.nuud.reservationsystem.dto.OrderDTO;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class OrderController {
+public class OrderResource {
 
     @Autowired
     private OrderService orderService;

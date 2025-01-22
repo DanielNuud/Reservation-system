@@ -1,4 +1,4 @@
-package daniel.nuud.reservationsystem.controller.api;
+package daniel.nuud.reservationsystem.rest.api;
 
 import daniel.nuud.reservationsystem.dto.UserCreateDTO;
 import daniel.nuud.reservationsystem.dto.UserDTO;
@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class UserController {
+public class UserResource {
 
     @Autowired
     private UserService userService;
