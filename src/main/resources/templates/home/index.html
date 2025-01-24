@@ -14,20 +14,21 @@
                 <h2 class="mb-3">[[#{home.index.choose}]]</h2>
                 <form action="/search" method="get" class="d-flex align-items-center justify-content-center p-4">
                     <div class="form-group">
-                        <label for="city" class="form-label">Куда вы хотите поехать?</label>
-                        <input type="text" id="city" name="city" class="form-control" placeholder="Введите город" />
+                        <label for="city" class="form-label">Where you want to stay?</label>
+                        <input type="text" id="city" name="city" class="form-control" placeholder="Choose your city" />
                     </div>
                     <div class="form-group">
-                        <label for="checkin" class="form-label">Заезд</label>
+                        <label for="checkin" class="form-label">Check In Date</label>
                         <input type="date" id="checkin" name="checkin" class="form-control" required />
                     </div>
                     <div class="form-group">
-                        <label for="checkout" class="form-label">Отъезд</label>
+                        <label for="checkout" class="form-label">Check Out Date</label>
                         <input type="date" id="checkout" name="checkout" class="form-control" required />
                     </div>
-                    <button type="submit" class="btn btn-primary">Проверить цены</button>
+                    <button type="submit" class="btn btn-primary">Check available houses</button>
                 </form>
             </div>
+
         </div>
     </body>
 </html>

@@ -1,5 +1,6 @@
 package daniel.nuud.reservationsystem.repository;
 
+import daniel.nuud.reservationsystem.dto.HouseDTO;
 import daniel.nuud.reservationsystem.dto.OrderDTO;
 import daniel.nuud.reservationsystem.model.HouseEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,4 +12,5 @@ import java.util.List;
 public interface HouseRepository extends JpaRepository<HouseEntity, Long> {
     boolean existsById(Long id);
     boolean existsByAddress(String address);
+    List<HouseDTO> findByCity(String city);
 }

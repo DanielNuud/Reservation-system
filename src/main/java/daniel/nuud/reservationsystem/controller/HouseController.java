@@ -3,17 +3,20 @@ package daniel.nuud.reservationsystem.controller;
 import daniel.nuud.reservationsystem.dto.HouseCreateDTO;
 import daniel.nuud.reservationsystem.dto.HouseDTO;
 import daniel.nuud.reservationsystem.dto.HouseUpdateDTO;
+import daniel.nuud.reservationsystem.model.HouseEntity;
 import daniel.nuud.reservationsystem.service.HouseService;
 import daniel.nuud.reservationsystem.util.ReferencedWarning;
 import daniel.nuud.reservationsystem.util.WebUtils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.Instant;
 import java.util.List;
 
 @Controller
@@ -77,5 +80,15 @@ public class HouseController {
         }
         return "redirect:/houses";
     }
+
+    @GetMapping("/houses/available")
+    public String findAvailableHouses(@RequestParam("city") String city, @RequestParam("startReservation") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant startReservation,
+                                      @RequestParam("endReservation") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant endReservation,
+                                      Model model) {
+        List<HouseDTO> availableHouses = houseService.findAvailableHouses(city, startReservation, endReservation);
+        model.addAttribute("houses", availableHouses);
+        return "house/list";
+    }
+
 
 }

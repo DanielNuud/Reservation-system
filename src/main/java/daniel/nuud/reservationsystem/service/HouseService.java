@@ -16,7 +16,9 @@ import daniel.nuud.reservationsystem.util.ReferencedWarning;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class HouseService {
@@ -76,6 +78,14 @@ public class HouseService {
         }
 
         houseRepository.deleteById(id);
+    }
+
+    public List<HouseDTO> findAvailableHouses(String city, Instant checkIn, Instant checkOut) {
+        var houses = houseRepository.findByCity(city);
+
+        return houses.stream()
+                .filter(house -> !orderRepository.existsByHouseAndTimeRange(house.getId(), checkIn, checkOut))
+                .collect(Collectors.toList());
     }
 
     public ReferencedWarning getReferencedWarning(final Long id) {
