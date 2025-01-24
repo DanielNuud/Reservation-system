@@ -6,29 +6,47 @@
         <link rel="icon" type="image/x-icon" href="/favicon.ico">
     </head>
     <body>
-        <div layout:fragment="content">
-            <div class="text-center mb-5">
-                <h1 class="mb-3">[[#{home.index.headline}]]</h1>
-            </div>
-            <div class="mb-3">
-                <h2 class="mb-3">[[#{home.index.choose}]]</h2>
-                <form action="/search" method="get" class="d-flex align-items-center justify-content-center p-4">
-                    <div class="form-group">
-                        <label for="city" class="form-label">Where you want to stay?</label>
-                        <input type="text" id="city" name="city" class="form-control" placeholder="Choose your city" />
-                    </div>
-                    <div class="form-group">
-                        <label for="checkin" class="form-label">Check In Date</label>
-                        <input type="date" id="checkin" name="checkin" class="form-control" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="checkout" class="form-label">Check Out Date</label>
-                        <input type="date" id="checkout" name="checkout" class="form-control" required />
-                    </div>
-                    <button type="submit" class="btn btn-primary">Check available houses</button>
-                </form>
-            </div>
-
+    <div layout:fragment="content">
+        <div class="text-center mb-5">
+            <h1 class="mb-3">[[#{home.index.headline}]]</h1>
         </div>
+        <div class="mb-3">
+            <h2 class="mb-3">[[#{home.index.choose}]]</h2>
+            <form action="/houses/available" method="get" class="d-flex align-items-center justify-content-center p-4">
+                <div class="form-group me-3">
+                    <label for="city" class="form-label">Where you want to stay?</label>
+                    <input type="text" id="city" name="city" class="form-control" placeholder="Choose your city" />
+                </div>
+                <div class="form-group me-3">
+                    <label for="checkin" class="form-label">Check In Date</label>
+                    <input type="date" id="checkin" name="checkin" class="form-control" required />
+                </div>
+                <div class="form-group me-3">
+                    <label for="checkout" class="form-label">Check Out Date</label>
+                    <input type="date" id="checkout" name="checkout" class="form-control" required />
+                </div>
+                <button type="submit" class="btn btn-primary">Check available houses</button>
+            </form>
+        </div>
+        <div class="mt-5">
+            <h2 class="mb-3">Available Houses</h2>
+            <div class="row">
+                <div th:each="house : ${houses}" class="col-md-4 mb-4">
+                    <div class="card">
+                        <img th:src="@{/images/sample-house.jpg}" class="card-img-top" alt="House Image">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${house.name}">House Name</h5>
+                            <p class="card-text" th:text="${house.description}">Short description about the house.</p>
+                            <p class="card-text"><strong>City:</strong> <span th:text="${house.city}">City</span></p>
+                            <p class="card-text"><strong>Rooms:</strong> <span th:text="${house.rooms}">Rooms</span></p>
+                            <p class="card-text"><strong>Area:</strong> <span th:text="${house.area}">Area in m²</span></p>
+                            <a href="#" class="btn btn-primary">More Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     </body>
 </html>

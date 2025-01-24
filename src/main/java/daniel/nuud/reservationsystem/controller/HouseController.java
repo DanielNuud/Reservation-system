@@ -81,13 +81,15 @@ public class HouseController {
         return "redirect:/houses";
     }
 
-    @GetMapping("/houses/available")
-    public String findAvailableHouses(@RequestParam("city") String city, @RequestParam("startReservation") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant startReservation,
+    @GetMapping("/available")
+    public String findAvailableHouses(@RequestParam("city") String city,
+                                      @RequestParam("startReservation") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant startReservation,
                                       @RequestParam("endReservation") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant endReservation,
                                       Model model) {
         List<HouseDTO> availableHouses = houseService.findAvailableHouses(city, startReservation, endReservation);
+        System.out.println("Available houses: " + availableHouses);
         model.addAttribute("houses", availableHouses);
-        return "house/list";
+        return "home/index";
     }
 
 
