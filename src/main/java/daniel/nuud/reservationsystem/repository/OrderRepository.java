@@ -1,5 +1,6 @@
 package daniel.nuud.reservationsystem.repository;
 
+import daniel.nuud.reservationsystem.model.HouseEntity;
 import daniel.nuud.reservationsystem.model.OrderEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,5 +17,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
     boolean existsByHouseAndTimeRange(@Param("houseId") Long houseId,
                                       @Param("startReservation") Instant startReservation,
                                       @Param("endReservation") Instant endReservation);
+
+    OrderEntity findFirstByHouse(HouseEntity houseEntity);
 
 }

@@ -14,6 +14,9 @@ public class HouseCreateDTO {
 
     private String description;
 
+    @NotBlank(message = "City must be not blank")
+    private String city;
+
     @NotBlank(message = "Address must not be blank")
     private String address;
 

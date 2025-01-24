@@ -16,6 +16,7 @@
             <form th:action="${requestUri}" method="post" novalidate="">
                 <div th:replace="~{fragments/forms::inputRow(object='house', field='name', required=true)}" />
                 <div th:replace="~{fragments/forms::inputRow(object='house', field='description')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='house', field='city', required=true)}" />
                 <div th:replace="~{fragments/forms::inputRow(object='house', field='address', required=true)}" />
                 <div th:replace="~{fragments/forms::inputRow(object='house', field='area', required=true)}" />
                 <div th:replace="~{fragments/forms::inputRow(object='house', field='rooms', required=true, type='number')}" />

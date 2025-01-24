@@ -2,7 +2,9 @@ package daniel.nuud.reservationsystem.controller;
 
 import daniel.nuud.reservationsystem.dto.HouseCreateDTO;
 import daniel.nuud.reservationsystem.dto.HouseDTO;
+import daniel.nuud.reservationsystem.dto.HouseUpdateDTO;
 import daniel.nuud.reservationsystem.service.HouseService;
+import daniel.nuud.reservationsystem.util.ReferencedWarning;
 import daniel.nuud.reservationsystem.util.WebUtils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +43,38 @@ public class HouseController {
         }
         houseService.createHouse(houseCreateDTO);
         redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("house.create.success"));
+        return "redirect:/houses";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable(name = "id") final Long id, final Model model) {
+        model.addAttribute("house", houseService.findHouseById(id));
+        return "house/edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String edit(@PathVariable(name = "id") final Long id,
+                       @ModelAttribute("house") @Valid final HouseUpdateDTO houseUpdateDTO,
+                       final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            return "house/edit";
+        }
+        houseService.updateHouse(id, houseUpdateDTO);
+        redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("house.update.success"));
+        return "redirect:/houses";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable(name = "id") final Long id,
+                         final RedirectAttributes redirectAttributes) {
+        final ReferencedWarning referencedWarning = houseService.getReferencedWarning(id);
+        if (referencedWarning != null) {
+            redirectAttributes.addFlashAttribute(WebUtils.MSG_ERROR,
+                    WebUtils.getMessage(referencedWarning.getKey(), referencedWarning.getParams().toArray()));
+        } else {
+            houseService.deleteHouse(id);
+            redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("house.delete.success"));
+        }
         return "redirect:/houses";
     }
 

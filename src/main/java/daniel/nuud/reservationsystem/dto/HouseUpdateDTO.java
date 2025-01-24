@@ -9,6 +9,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 public class HouseUpdateDTO {
     private JsonNullable<String> name;
     private JsonNullable<String> description;
+    private JsonNullable<String> city;
     private JsonNullable<String> address;
     private JsonNullable<Double> area;
     private JsonNullable<Integer> rooms;

@@ -5,9 +5,14 @@ import daniel.nuud.reservationsystem.dto.HouseDTO;
 import daniel.nuud.reservationsystem.dto.HouseUpdateDTO;
 import daniel.nuud.reservationsystem.exception.ConflictException;
 import daniel.nuud.reservationsystem.exception.InvalidRequestException;
+import daniel.nuud.reservationsystem.exception.NotFoundException;
 import daniel.nuud.reservationsystem.exception.ResourceNotFoundException;
 import daniel.nuud.reservationsystem.mapper.HouseMapper;
+import daniel.nuud.reservationsystem.model.HouseEntity;
+import daniel.nuud.reservationsystem.model.OrderEntity;
 import daniel.nuud.reservationsystem.repository.HouseRepository;
+import daniel.nuud.reservationsystem.repository.OrderRepository;
+import daniel.nuud.reservationsystem.util.ReferencedWarning;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +26,9 @@ public class HouseService {
 
     @Autowired
     private HouseMapper houseMapper;
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     public List<HouseDTO> getAllHouses() {
         var houses = houseRepository.findAll();
@@ -68,5 +76,18 @@ public class HouseService {
         }
 
         houseRepository.deleteById(id);
+    }
+
+    public ReferencedWarning getReferencedWarning(final Long id) {
+        final ReferencedWarning referencedWarning = new ReferencedWarning();
+        final HouseEntity house = houseRepository.findById(id)
+                .orElseThrow(NotFoundException::new);
+        final OrderEntity houseOrder = orderRepository.findFirstByHouse(house);
+        if (houseOrder != null) {
+            referencedWarning.setKey("house.order.house.referenced");
+            referencedWarning.addParam(houseOrder.getId());
+            return referencedWarning;
+        }
+        return null;
     }
 }

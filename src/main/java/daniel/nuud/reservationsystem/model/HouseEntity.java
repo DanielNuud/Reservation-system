@@ -29,6 +29,9 @@ public class HouseEntity {
 
     private String description;
 
+    @NotBlank
+    private String city;
+
     @Column(unique = true, nullable = false)
     @NotBlank
     private String address;

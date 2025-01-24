@@ -54,5 +54,15 @@
                 <div layout:fragment="content" />
             </div>
         </main>
+
+        <footer class="footer mt-auto py-3 bg-light">
+            <div class="container text-center">
+                <p class="mb-0">
+                    <span>[[#{home.index.swagger}]]</span>
+                    <a th:href="@{/swagger-ui.html}" target="_blank">[[#{home.index.swagger.link}]]</a>.
+                </p>
+            </div>
+        </footer>
+
     </body>
 </html>
