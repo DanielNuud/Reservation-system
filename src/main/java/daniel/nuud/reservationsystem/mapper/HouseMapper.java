@@ -15,5 +15,6 @@ public abstract class HouseMapper {
 
     public abstract HouseDTO toDTO(HouseEntity entity);
     public abstract HouseEntity toEntity(HouseCreateDTO houseCreateDTO);
+    public abstract HouseEntity toEntity(HouseDTO houseDTO);
     public abstract void updateHouse(HouseUpdateDTO houseUpdateDTO, @MappingTarget HouseEntity entity);
 }

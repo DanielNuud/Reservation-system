@@ -26,6 +26,4 @@ public class HouseCreateDTO {
     @Positive(message = "Must be greater than 0")
     private Integer rooms;
 
-    private boolean available;
-
 }

@@ -80,13 +80,14 @@ public class HouseService {
         houseRepository.deleteById(id);
     }
 
-    public List<HouseDTO> findAvailableHouses(String city, Instant checkIn, Instant checkOut) {
-        var houses = houseRepository.findByCity(city);
-
-        return houses.stream()
-                .filter(house -> !orderRepository.existsByHouseAndTimeRange(house.getId(), checkIn, checkOut))
+    public List<HouseDTO> findAvailableHouses(String city, Instant startReservation, Instant endReservation) {
+        List<HouseEntity> availableHouses = houseRepository.findAvailableHouses(city, startReservation, endReservation);
+        return availableHouses.stream()
+                .map(houseMapper::toDTO)
                 .collect(Collectors.toList());
     }
+
+
 
     public ReferencedWarning getReferencedWarning(final Long id) {
         final ReferencedWarning referencedWarning = new ReferencedWarning();

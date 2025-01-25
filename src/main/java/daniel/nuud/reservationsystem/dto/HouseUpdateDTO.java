@@ -13,5 +13,5 @@ public class HouseUpdateDTO {
     private JsonNullable<String> address;
     private JsonNullable<Double> area;
     private JsonNullable<Integer> rooms;
-    private JsonNullable<Boolean> available;
+
 }

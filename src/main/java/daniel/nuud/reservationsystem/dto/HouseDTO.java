@@ -15,6 +15,5 @@ public class HouseDTO {
     private String address;
     private Integer rooms;
     private Double area;
-    private Boolean available;
     private Instant createdAt;
 }
