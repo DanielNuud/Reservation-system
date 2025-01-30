@@ -33,12 +33,12 @@ public class HouseResource {
         return houseService.findHouseById(id);
     }
 
-    @PostMapping(path = "/houses")
-    @ResponseStatus(HttpStatus.CREATED)
-    public HouseDTO createHouse(@RequestBody @Valid HouseCreateDTO houseCreateDTO) {
-        var house = houseService.createHouse(houseCreateDTO);
-        return house;
-    }
+//    @PostMapping(path = "/houses")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public HouseDTO createHouse(@RequestBody @Valid HouseCreateDTO houseCreateDTO) {
+//        var house = houseService.createHouse(houseCreateDTO);
+//        return house;
+//    }
 
     @PutMapping(path = "/houses/{id}")
     @ResponseStatus(HttpStatus.OK)

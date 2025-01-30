@@ -6,6 +6,7 @@ import daniel.nuud.reservationsystem.dto.UserUpdateDTO;
 import daniel.nuud.reservationsystem.exception.ConflictException;
 import daniel.nuud.reservationsystem.exception.ResourceNotFoundException;
 import daniel.nuud.reservationsystem.mapper.UserMapper;
+import daniel.nuud.reservationsystem.model.UserEntity;
 import daniel.nuud.reservationsystem.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,13 @@ public class UserService {
         var user = userMapper.toEntity(userCreateDTO);
         userRepository.save(user);
         return userMapper.toDTO(user);
+    }
+
+    public UserEntity findByUserName(String userName) {
+        var user = userRepository.findByEmail(userName).orElseThrow(
+                () -> new ResourceNotFoundException(String.format("User with email '%s' not found", userName))
+        );
+        return user;
     }
 
     public List<UserDTO> getAllUsers() {

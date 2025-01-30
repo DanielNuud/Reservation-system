@@ -60,6 +60,9 @@ public class UserEntity implements UserDetails {
     )
     private List<RoleEntity> roles = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<HouseEntity> houses = new ArrayList<>();
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;

@@ -44,7 +44,7 @@ public class JwtSecurityConfig {
                         .requestMatchers("/v3/api-docs/**").permitAll()
                         .requestMatchers("/swagger.html").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
-                        .anyRequest().permitAll())
+                        .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")
                         .usernameParameter("email")

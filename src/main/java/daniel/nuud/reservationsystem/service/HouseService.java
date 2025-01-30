@@ -3,17 +3,22 @@ package daniel.nuud.reservationsystem.service;
 import daniel.nuud.reservationsystem.dto.HouseCreateDTO;
 import daniel.nuud.reservationsystem.dto.HouseDTO;
 import daniel.nuud.reservationsystem.dto.HouseUpdateDTO;
+import daniel.nuud.reservationsystem.dto.UserDTO;
 import daniel.nuud.reservationsystem.exception.ConflictException;
 import daniel.nuud.reservationsystem.exception.InvalidRequestException;
 import daniel.nuud.reservationsystem.exception.NotFoundException;
 import daniel.nuud.reservationsystem.exception.ResourceNotFoundException;
 import daniel.nuud.reservationsystem.mapper.HouseMapper;
+import daniel.nuud.reservationsystem.mapper.UserMapper;
 import daniel.nuud.reservationsystem.model.HouseEntity;
 import daniel.nuud.reservationsystem.model.OrderEntity;
+import daniel.nuud.reservationsystem.model.UserEntity;
 import daniel.nuud.reservationsystem.repository.HouseRepository;
 import daniel.nuud.reservationsystem.repository.OrderRepository;
+import daniel.nuud.reservationsystem.repository.UserRepository;
 import daniel.nuud.reservationsystem.util.ReferencedWarning;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -32,6 +37,9 @@ public class HouseService {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     public List<HouseDTO> getAllHouses() {
         var houses = houseRepository.findAll();
         var result = houses.stream().map(house -> houseMapper.toDTO(house))
@@ -45,7 +53,13 @@ public class HouseService {
         return houseMapper.toDTO(house);
     }
 
-    public HouseDTO createHouse(HouseCreateDTO houseCreateDTO) {
+    public List<HouseDTO> getHousesByUser(UserEntity user) {
+        var houses = houseRepository.findByUserId(user.getId());
+        return houses.stream().map(house -> houseMapper.toDTO(house))
+                .collect(Collectors.toList());
+    }
+
+    public HouseDTO createHouse(HouseCreateDTO houseCreateDTO, UserDetails userDetails) {
         if (houseRepository.existsByAddress(houseCreateDTO.getAddress())) {
             throw new ConflictException("House already exists with address: " + houseCreateDTO.getAddress());
         }
@@ -55,7 +69,15 @@ public class HouseService {
         }
 
         var house = houseMapper.toEntity(houseCreateDTO);
+        var user = userRepository.findByEmail(userDetails.getUsername())
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("User with email: " + userDetails.getUsername() + " not found"));
+
+        house.setUser(user);
+        house.setImagePaths(houseCreateDTO.getImagePaths());
+        System.out.println("Saved image path: " + houseCreateDTO.getImagePaths().get(0));
         houseRepository.save(house);
+
         return houseMapper.toDTO(house);
     }
 

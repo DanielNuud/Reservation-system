@@ -28,25 +28,40 @@
                 <button type="submit" class="btn btn-primary">Check available houses</button>
             </form>
         </div>
-        <div class="mt-5">
-            <h2 class="mb-3">Available Houses</h2>
-            <div class="row">
-                <div th:each="house : ${houses}" class="col-md-4 mb-4">
-                    <div class="card">
-                        <img th:src="@{/images/sample-house.jpg}" class="card-img-top" alt="House Image">
-                        <div class="card-body">
-                            <h5 class="card-title" th:text="${house.name}">House Name</h5>
-                            <p class="card-text" th:text="${house.description}">Short description about the house.</p>
-                            <p class="card-text"><strong>City:</strong> <span th:text="${house.city}">City</span></p>
-                            <p class="card-text"><strong>Rooms:</strong> <span th:text="${house.rooms}">Rooms</span></p>
-                            <p class="card-text"><strong>Area:</strong> <span th:text="${house.area}">Area in m²</span></p>
-                            <a href="#" class="btn btn-primary">More Details</a>
+
+        <div class="mb-3 mt-5" th:if="${!#lists.isEmpty(houses)}">
+        <h2>
+            Available houses in <span th:text="${city}">City</span>:
+            <span th:text="${houseCount}">0</span>
+        </h2></div>
+
+        <div th:if="${!#lists.isEmpty(houses)}" class="row row-cols-1 row-cols-md-3 g-4">
+
+
+            <div class="col" th:each="house : ${houses}">
+                <div class="card mb-3" style="max-width: 100%; min-height: 120px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img th:src="@{'/' + ${house.imagePaths[0]}}" class="img-fluid rounded-start" alt="House Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title" th:text="${house.name}">Name</h5>
+                                <p class="card-text" th:text="${house.description}">Description</p>
+                                <p class="card-text">
+                                    <small class="text-muted" th:text="${house.area}">area</small>
+                                    <small class="text-muted">m²</small>
+                                </p>
+                                <p class="card-text text-danger">На нашем сайте осталось всего 7 номеров</p>
+                                <div class="mt-auto">
+                                    <a th:href="@{/houses/{id}(id=${house.id})}" class="btn btn-primary">Details</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
     </body>
 </html>

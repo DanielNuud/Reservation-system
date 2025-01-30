@@ -20,7 +20,7 @@ import java.time.Instant;
 public class OrderEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @ManyToOne
@@ -32,6 +32,8 @@ public class OrderEntity {
     private UserEntity user;
 
     private String status;
+
+    private boolean paid = false;
 
     @CreatedDate
     private Instant createdAt;

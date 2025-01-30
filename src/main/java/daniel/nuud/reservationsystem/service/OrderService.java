@@ -11,8 +11,11 @@ import daniel.nuud.reservationsystem.model.OrderEntity;
 import daniel.nuud.reservationsystem.repository.OrderRepository;
 import daniel.nuud.reservationsystem.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +33,23 @@ public class OrderService {
 
     @Autowired
     private OrderMapper orderMapper;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Scheduled(fixedDelay = 60000)
+    public void cancelUnpaidReservations() {
+        LocalDateTime tenMinutesAgo = LocalDateTime.now().minusMinutes(10);
+        List<OrderEntity> unpaidOrders = orderRepository.findUnpaidOrders(tenMinutesAgo);
+
+        for (OrderEntity order : unpaidOrders) {
+            orderRepository.delete(order);
+            emailService.sendEmail(order.getUser().getEmail(),
+                    "Reservation Cancelled",
+                    "Your reservation for house " + order.getHouse().getName() + " was cancelled due to non-payment.");
+            System.out.println("Order " + order.getId() + " was canceled due to no payment.");
+        }
+    }
 
     public OrderDTO createOrder(OrderCreateDTO orderCreateDTO) {
         var user = userRepository.findById(orderCreateDTO.getUserId())
@@ -58,7 +78,14 @@ public class OrderService {
         order.setUser(user);
         order.setHouse(house);
         order.setStatus("CONFIRMED");
-        return orderMapper.toDto(orderRepository.save(order));
+        orderRepository.save(order);
+
+
+        emailService.sendEmail(user.getEmail(),
+                "Reservation confirmed",
+                "Your order has been confirmed. Waiting for payment in 10 minutes.");
+
+        return orderMapper.toDto(order);
     }
 
     public OrderDTO getOrder(Long orderId) {

@@ -46,6 +46,8 @@ public class HomeController {
         List<HouseDTO> availableHouses = houseService.findAvailableHouses(city, start, end);
         System.out.println("Available houses: " + availableHouses);
         model.addAttribute("houses", availableHouses);
+        model.addAttribute("city", city);
+        model.addAttribute("houseCount", availableHouses.size());
         return "home/index";
     }
 

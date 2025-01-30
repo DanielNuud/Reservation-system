@@ -11,6 +11,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.Instant;
+import java.util.List;
 
 @Entity
 @Table(name = "houses")
@@ -42,7 +43,12 @@ public class HouseEntity {
     @NotNull
     private Integer rooms;
 
-    private Boolean available;
+    @ElementCollection
+    private List<String> imagePaths;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
     @CreatedDate
     private Instant createdAt = Instant.now();

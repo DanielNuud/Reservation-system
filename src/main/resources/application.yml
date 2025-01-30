@@ -1,16 +1,41 @@
 spring:
   jpa:
-    show-sql: true
     hibernate:
       ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
   datasource:
-    url: jdbc:h2:mem:reservation-system;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    url: jdbc:postgresql://localhost:5432/reservation_system_db
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: postgres
   docker:
     compose:
       enabled: false
+  thymeleaf:
+    cache: false
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  web:
+    resources:
+      static-locations:
+        - classpath:/static/
+        - file:uploads/
+  mail:
+    username: ${EMAIL_USER}
+    password: ${EMAIL_PASS}
+    host: smtp.gmail.com
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    port: 587
 
 rsa:
   private-key: classpath:certs/private.pem

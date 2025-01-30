@@ -24,4 +24,6 @@ public interface HouseRepository extends JpaRepository<HouseEntity, Long> {
                                           @Param("startReservation") Instant startReservation,
                                           @Param("endReservation") Instant endReservation);
 
+    @Query("select h FROM HouseEntity h where h.user.id = :userId")
+    List<HouseEntity> findByUserId(@Param("userId") Long userId);
 }
