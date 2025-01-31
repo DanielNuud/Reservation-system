@@ -12,10 +12,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -50,10 +48,21 @@ public class OrderController {
         return "order/view";
     }
 
-//    @PostMapping("/{id}")
-//    public String createOrder(@PathVariable Long id, Model model,
-//                              @AuthenticationPrincipal UserDetails userDetails) {
-//
-//    }
+    @PostMapping
+    public String createOrder(@PathVariable Long houseId,
+                              @ModelAttribute OrderCreateDTO orderCreateDTO,
+                              @AuthenticationPrincipal UserDetails userDetails,
+                              RedirectAttributes redirectAttributes) {
+        var user = userService.findByUserName(userDetails.getUsername());
+        var house = houseService.findHouseById(houseId);
+
+        orderCreateDTO.setHouseId(house.getId());
+        orderCreateDTO.setUserId(user.getId());
+
+        orderService.createOrder(orderCreateDTO);
+        redirectAttributes.addFlashAttribute("success", "Reservation successful!");
+
+        return "redirect:/houses";
+    }
 
 }
