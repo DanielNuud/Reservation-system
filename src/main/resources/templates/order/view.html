@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Confirm Booking</title>
+</head>
+<body>
+<div layout:fragment="content" class="container mt-1">
+    <h1>Confirm Your Booking</h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h2 th:text="${house.name}">House Name</h2>
+            <p><strong>Address:</strong> <span th:text="${house.address}"></span></p>
+            <p><strong>Description:</strong> <span th:text="${house.description}"></span></p>
+            <p><strong>Rooms:</strong> <span th:text="${house.rooms}"></span></p>
+            <p><strong>Area:</strong> <span th:text="${house.area}"></span> m²</p>
+            <img th:src="@{${house.imagePaths[0]}}" class="img-fluid rounded w-100">
+        </div>
+
+        <div class="col-md-6">
+            <form th:action="@{/order/{houseId}(houseId=${house.id})}" method="post">
+                <div class="form-group">
+                    <label for="start">Check-in Date:</label>
+                    <input type="date" id="start" name="startDate" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="end">Check-out Date:</label>
+                    <input type="date" id="end" name="endDate" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="payment">Choose Payment:</label>
+                    <select id="payment" name="paymentMethod" class="form-control">
+                        <option value="bank">Bank Transfer</option>
+                        <option value="card">Credit Card</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-success">Confirm Reservation</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,7 +1,6 @@
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
-<!DOCTYPE html>
-
 <head>
   <title th:text="${house.name}">House Details</title>
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -14,7 +13,7 @@
       <h1 th:text="${house.name}" class="mb-1">House Name</h1>
       <p class="text-muted" th:text="${house.address}"></p>
     </div>
-    <a href="#" class="btn btn-primary order-btn">Reserve house</a>
+    <a th:href="@{/houses/{houseId}/book(houseId=${house.id})}" class="btn btn-primary order-btn">Reserve house</a>
   </div>
 
   <div class="row">
