@@ -75,7 +75,6 @@ public class HouseService {
 
         house.setUser(user);
         house.setImagePaths(houseCreateDTO.getImagePaths());
-        System.out.println("Saved image path: " + houseCreateDTO.getImagePaths().get(0));
         houseRepository.save(house);
 
         return houseMapper.toDTO(house);
@@ -84,11 +83,7 @@ public class HouseService {
     public HouseDTO updateHouse(Long id, HouseUpdateDTO houseUpdateDTO) {
         var house = houseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No house found with id: " + id));
-
-        if (houseRepository.existsByAddress(house.getAddress())) {
-            throw new ConflictException("House already exists with address: " + house.getAddress());
-        }
-
+        
         houseMapper.updateHouse(houseUpdateDTO, house);
         houseRepository.save(house);
         return houseMapper.toDTO(house);
