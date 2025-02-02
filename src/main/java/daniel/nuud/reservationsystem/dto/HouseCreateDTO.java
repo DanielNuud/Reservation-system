@@ -29,7 +29,8 @@ public class HouseCreateDTO {
     @Positive(message = "Must be greater than 0")
     private Integer rooms;
 
-    private String imagePath;
+    @Positive(message = "Must be greater than 0")
+    private Double price;
 
     private List<MultipartFile> images;
 

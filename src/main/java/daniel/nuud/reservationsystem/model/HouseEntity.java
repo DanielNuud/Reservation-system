@@ -43,6 +43,9 @@ public class HouseEntity {
     @NotNull
     private Integer rooms;
 
+    @NotNull
+    private Double price;
+
     @ElementCollection
     private List<String> imagePaths;
 

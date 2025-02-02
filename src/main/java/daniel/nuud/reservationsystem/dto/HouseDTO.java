@@ -17,6 +17,7 @@ public class HouseDTO {
     private String address;
     private Integer rooms;
     private Double area;
+    private Double price;
     private List<MultipartFile> images;
     private List<String> imagePaths;
     private Instant createdAt;
