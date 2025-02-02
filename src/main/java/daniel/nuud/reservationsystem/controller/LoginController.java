@@ -19,7 +19,7 @@ public class LoginController {
             @RequestParam(name = "loginRequired", required = false) final Boolean loginRequired,
             @RequestParam(name = "loginError", required = false) final Boolean loginError,
             final Model model) {
-        // dummy for using the inputRow fragment
+
         model.addAttribute("authentication", new AuthRequest());
         if (loginRequired == Boolean.TRUE) {
             model.addAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("authentication.login.required"));
@@ -30,12 +30,5 @@ public class LoginController {
         return "authentication/login";
     }
 
-//    @GetMapping("/")
-//    public String mainPage(Model model, Principal principal) {
-//        if (principal != null) {
-//            model.addAttribute("username", principal.getName());
-//        }
-//        return "index";
-//    }
 }
 
