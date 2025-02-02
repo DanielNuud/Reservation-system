@@ -1,54 +1,73 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorate="~{layout}">
-    <head>
-        <title>[[#{order.list.headline}]]</title>
-    </head>
-    <body>
-        <div layout:fragment="content">
-            <div class="d-flex flex-wrap mb-4">
-                <h1 class="flex-grow-1">[[#{order.list.headline}]]</h1>
-                <div>
-                    <a th:href="@{/orders/add}" class="btn btn-primary ms-2">[[#{order.list.createNew}]]</a>
+      layout:decorate="~{layout}">
+<head>
+    <title>[[#{order.list.headline}]]</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.toggle-details').click(function() {
+                $(this).closest('.order-card').find('.order-details').slideToggle();
+            });
+        });
+    </script>
+    <style>
+        .order-actions {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-end;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-4" layout:fragment="content">
+    <h2>Your Orders</h2>
+
+    <div th:if="${orders.empty}">[[#{order.list.empty}]]</div>
+
+    <div th:each="entry : ${orders}">
+        <h2 th:text="'In ' + ${entry.key}"></h2>
+
+        <div th:each="order : ${entry.value}" class="order-card">
+            <div class="order-header d-flex align-items-center">
+                <img th:src="${order.house.imagePaths[0]}" alt="House Image" class="me-3" style="width: 100px; height: auto;">
+                <div class="flex-grow-1">
+                    <h5 th:text="${order.house.name}"></h5>
+                    <p th:text="${#dates.format(order.startReservation, 'dd MMM yyyy')} + ' — ' + ${#dates.format(order.endReservation, 'dd MMM yyyy')} + ' · ' + ${order.house.address}"></p>
+                    <span th:text="${order.status}" class="badge bg-success"></span>
+                </div>
+                <div class="text-end">
+                    <h5 th:text="'€ ' + ${order.house.price}" class="text-primary"></h5>
+                    <button class="btn btn-sm btn-outline-secondary toggle-details">Details</button>
                 </div>
             </div>
-            <div th:if="${!orders.empty}" class="row">
-                <div th:replace="~{fragments/utils::sorting(object='order', sortOptions=${ {'id,ASC', 'startReservation,ASC', 'endReservation,ASC'} }, columnClass='offset-md-6 offset-lg-8')}" />
+
+            <div class="order-body order-details" style="display: none;">
+                <div class="row">
+                    <div class="col-md-8 d-flex flex-column">
+                        <p><strong>Description:</strong> <span th:text="${order.house.description}"></span></p>
+                        <p><strong>Rooms:</strong> <span th:text="${order.house.rooms}"></span></p>
+                        <p><strong>Area:</strong> <span th:text="${order.house.area} + ' m²'"></span></p>
+
+                        <form class="mt-auto order-actions" th:action="@{orders/cancel/{orderId}(orderId=${order.id})}"
+                        method="post">
+                            <button type="submit" class="btn btn-danger">Cancel Order</button>
+                        </form>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="rounded overflow-hidden map-container">
+                            <iframe th:src="'https://www.google.com/maps?q=' + ${order.house.address} + '&output=embed'"
+                                    width="100%" height="100%" frameborder="0" style="border:0;" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div th:if="${orders.empty}">[[#{order.list.empty}]]</div>
-            <div th:if="${!orders.empty}" class="table-responsive">
-                <table class="table table-striped table-hover align-middle">
-                    <thead>
-                        <tr>
-                            <th scope="col">[[#{order.id.label}]]</th>
-                            <th scope="col">[[#{order.startReservation.label}]]</th>
-                            <th scope="col">[[#{order.endReservation.label}]]</th>
-                            <th scope="col">[[#{order.user.label}]]</th>
-                            <th scope="col">[[#{order.house.label}]]</th>
-                            <th><!-- --></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="order : ${orders}">
-                            <td>[[${order.id}]]</td>
-                            <td>[[${order.startReservation}]]</td>
-                            <td>[[${order.endReservation}]]</td>
-                            <td>[[${order.user}]]</td>
-                            <td>[[${order.house}]]</td>
-                            <td>
-                                <div class="float-end text-nowrap">
-                                    <a th:href="@{/orders/edit/{id}(id=${order.id})}" class="btn btn-sm btn-secondary">[[#{order.list.edit}]]</a>
-                                    <form th:action="@{/orders/delete/{id}(id=${order.id})}"
-                                            th:data-confirm-message="#{delete.confirm}" method="post" class="js-submit-confirm d-inline">
-                                        <button type="submit" class="btn btn-sm btn-secondary">[[#{order.list.delete}]]</button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div th:replace="~{fragments/utils::pagination()}" />
         </div>
-    </body>
+    </div>
+
+</div>
+</body>
 </html>
