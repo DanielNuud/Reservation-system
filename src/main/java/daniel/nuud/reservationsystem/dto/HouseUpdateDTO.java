@@ -8,11 +8,12 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @Setter
 public class HouseUpdateDTO {
-    private JsonNullable<String> name;
-    private JsonNullable<String> description;
-    private JsonNullable<String> city;
-    private JsonNullable<String> address;
-    private JsonNullable<Double> area;
-    private JsonNullable<Integer> rooms;
-    private JsonNullable<MultipartFile> image;
+    private String name;
+    private String description;
+    private String city;
+    private String address;
+    private Double area;
+    private Integer rooms;
+    private Double price;
+    private MultipartFile image;
 }
