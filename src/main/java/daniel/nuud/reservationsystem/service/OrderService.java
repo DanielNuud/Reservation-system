@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -53,10 +55,29 @@ public class OrderService {
         }
     }
 
+    public void updateCompletedOrders() {
+        List<OrderEntity> orders = orderRepository.findAll();
+        Instant today = Instant.now();
+
+        orders.forEach(order -> {
+            if (order.getEndReservation().isBefore(today) && order.getStatus() != OrderStatus.COMPLETED) {
+                order.setStatus(OrderStatus.COMPLETED);
+            }
+        });
+
+        orderRepository.saveAll(orders);
+    }
+
     public Map<String, List<OrderDTO>> getListGroupByCities() {
         var list = orderRepository.findAll();
+        Instant today = Instant.now();
 
         return list.stream()
+                .peek(order -> {
+                    if (order.getEndReservation().isBefore(today) && order.getStatus() != OrderStatus.COMPLETED) {
+                        order.setStatus(OrderStatus.COMPLETED);
+                    }
+                })
                 .map(orderMapper::toDto)
                 .collect(Collectors.groupingBy(order -> order.getHouse().getCity()));
     }
@@ -120,6 +141,17 @@ public class OrderService {
 
         order.setStatus(OrderStatus.CANCELED);
         orderMapper.toDto(orderRepository.save(order));
+
+        emailService.sendEmail(
+                order.getUser().getEmail(),
+                "Booking canceled",
+                "Dear " + order.getUser().getFirstName() + ",\n\n"
+                        + "We regret to inform you that your booking for " + order.getHouse().getName() +
+                        " from " + order.getStartReservation() + " to " + order.getEndReservation() + " has been canceled.\n\n"
+                        + "If you have any questions or need further assistance, please contact us at support@example.com.\n\n"
+                        + "Best regards,\n"
+                        + "Your House Reservation System"
+        );
     }
 
     public void deleteOrder(Long orderId) {

@@ -36,7 +36,11 @@
                 <div class="flex-grow-1">
                     <h5 th:text="${order.house.name}"></h5>
                     <p th:text="${#dates.format(order.startReservation, 'dd MMM yyyy')} + ' — ' + ${#dates.format(order.endReservation, 'dd MMM yyyy')} + ' · ' + ${order.house.address}"></p>
-                    <span th:text="${order.status}" class="badge bg-success"></span>
+                    <span th:text="${order.status}"
+                          th:classappend="${#strings.toUpperCase(order.status) == 'PENDING'} ? 'bg-warning' :
+               (${#strings.toUpperCase(order.status) == 'CONFIRMED'} ? 'bg-primary' :
+               (${#strings.toUpperCase(order.status) == 'CANCELED'} ? 'bg-danger' : 'bg-success'))"
+                          class="badge"></span>
                 </div>
                 <div class="text-end">
                     <h5 th:text="'€ ' + ${order.house.price}" class="text-primary"></h5>
@@ -51,10 +55,11 @@
                         <p><strong>Rooms:</strong> <span th:text="${order.house.rooms}"></span></p>
                         <p><strong>Area:</strong> <span th:text="${order.house.area} + ' m²'"></span></p>
 
+                        <div th:if="${order.status != T(daniel.nuud.reservationsystem.model.OrderStatus).CANCELED}">
                         <form class="mt-auto order-actions" th:action="@{orders/cancel/{orderId}(orderId=${order.id})}"
                         method="post">
                             <button type="submit" class="btn btn-danger">Cancel Order</button>
-                        </form>
+                        </form></div>
                     </div>
 
                     <div class="col-md-4">

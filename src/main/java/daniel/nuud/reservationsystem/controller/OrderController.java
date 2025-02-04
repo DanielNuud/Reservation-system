@@ -38,6 +38,7 @@ public class OrderController {
 
     @GetMapping("/orders")
     public String orders(Model model) {
+        orderService.updateCompletedOrders();
         model.addAttribute("orders", orderService.getListGroupByCities());
         return "order/list";
     }
