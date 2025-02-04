@@ -29,6 +29,9 @@ public class HomeController {
         if (logoutSuccess == Boolean.TRUE) {
             model.addAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("authentication.logout.success"));
         }
+        var houses = houseService.getAllHouses();
+        model.addAttribute("houses", houses);
+        model.addAttribute("houseCount", houses.size());
         return "home/index";
     }
 
@@ -41,7 +44,6 @@ public class HomeController {
 
         Instant start = startReservation.atStartOfDay(ZoneId.systemDefault()).toInstant();
         Instant end = endReservation.atStartOfDay(ZoneId.systemDefault()).toInstant();
-
 
         List<HouseDTO> availableHouses = houseService.findAvailableHouses(city, start, end);
         System.out.println("Available houses: " + availableHouses);

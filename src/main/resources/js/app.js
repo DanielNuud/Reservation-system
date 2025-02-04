@@ -56,3 +56,50 @@ function initDatepicker() {
   });
 }
 initDatepicker();
+
+function fetchUpdatedHouses() {
+  console.log("Fetching houses..."); // Проверь, появляется ли это в консоли
+  fetch('/api/houses')
+      .then(response => response.json())
+      .then(houses => {
+        console.log("Received houses:", houses);
+        let houseList = document.getElementById('houses-list');
+        if (!houseList) {
+          console.error("Element with ID 'houses-list' not found!");
+          return;
+        }
+
+        houseList.innerHTML = '';
+        houses.forEach(house => {
+          let houseCard = `
+                <div class="col">
+                    <div class="card mb-3" style="max-width: 100%; min-height: 120px;">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="${house.imagePaths[0]}" class="img-fluid rounded-start" alt="House Image">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">${house.name}</h5>
+                                    <p class="card-text">${house.description}</p>
+                                    <p class="card-text">
+                                        <small class="text-muted">${house.area} m²</small>
+                                    </p>
+                                    <div class="mt-auto">
+                                        <a href="/houses/${house.id}" class="btn btn-primary">Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+          houseList.innerHTML += houseCard;
+        });
+      })
+      .catch(error => console.error("Error fetching houses:", error));
+}
+
+setInterval(() => {
+  console.log("Calling fetchUpdatedHouses()...");
+  fetchUpdatedHouses();
+}, 10000);

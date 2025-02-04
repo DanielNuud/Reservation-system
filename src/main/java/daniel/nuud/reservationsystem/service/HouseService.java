@@ -47,6 +47,14 @@ public class HouseService {
         return result;
     }
 
+    public List<HouseDTO> getRecentlyAddedHouses() {
+        Instant lastCheckTime = Instant.now().minusSeconds(10);
+        return houseRepository.findByCreatedAtAfter(lastCheckTime)
+                .stream()
+                .map(houseMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
     public HouseDTO findHouseById(Long id) {
         var house = houseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No house found with id: " + id));

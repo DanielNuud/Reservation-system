@@ -48,13 +48,6 @@ public class HouseController {
     @Autowired
     private HouseRepository houseRepository;
 
-//    @GetMapping
-//    public String list(final Model model) {
-//        final List<HouseDTO> houses = houseService.getAllHouses();
-//        model.addAttribute("houses", houses);
-//        return "house/list";
-//    }
-
     @GetMapping
     public String myHouses(Model model, @AuthenticationPrincipal UserDetails userDetails) {
         var currentUser = userService.findByUserName(userDetails.getUsername());
@@ -107,7 +100,7 @@ public class HouseController {
             var user = userService.findByUserName(userDetails.getUsername());
             houseService.createHouse(houseCreateDTO, user);
 
-            redirectAttributes.addFlashAttribute("success", "House successfully added!");
+            redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("house.create.success"));
         } catch (IOException e) {
             bindingResult.rejectValue("images", "error.house", "Error uploading images");
             return "house/add";
@@ -128,7 +121,7 @@ public class HouseController {
                        final BindingResult bindingResult, final RedirectAttributes redirectAttributes,
                        @AuthenticationPrincipal UserDetails userDetails) {
 
-        HouseEntity house = houseRepository.findById(id).orElseThrow(() ->
+        var house = houseRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("House with id " + id + " not found"));
 
         if (bindingResult.hasErrors()) {

@@ -27,18 +27,17 @@ public class HouseResource {
                 .body(houses);
     }
 
+    @GetMapping(path = "/houses/updates")
+    public ResponseEntity<List<HouseDTO>> getUpdatedHouses() {
+        var houses = houseService.getRecentlyAddedHouses();
+        return ResponseEntity.ok(houses);
+    }
+
     @GetMapping(path = "/houses/{id}")
     @ResponseStatus(HttpStatus.OK)
     public HouseDTO getHouseById(@PathVariable Long id) {
         return houseService.findHouseById(id);
     }
-
-//    @PostMapping(path = "/houses")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public HouseDTO createHouse(@RequestBody @Valid HouseCreateDTO houseCreateDTO) {
-//        var house = houseService.createHouse(houseCreateDTO);
-//        return house;
-//    }
 
     @PutMapping(path = "/houses/{id}")
     @ResponseStatus(HttpStatus.OK)

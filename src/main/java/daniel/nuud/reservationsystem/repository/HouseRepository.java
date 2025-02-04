@@ -26,4 +26,6 @@ public interface HouseRepository extends JpaRepository<HouseEntity, Long> {
 
     @Query("select h FROM HouseEntity h where h.user.id = :userId")
     List<HouseEntity> findByUserId(@Param("userId") Long userId);
+
+    List<HouseEntity> findByCreatedAtAfter(Instant createdAt);
 }
